@@ -426,8 +426,8 @@ class S3KeyTest(unittest.TestCase):
         self.assertIn(remote_metadata['cache-control'],
                       ('public,%20max-age=500', 'public, max-age=500'))
         self.assertEqual(check.get_metadata('test-plus'), 'A plus (+)')
-        self.assertEqual(check.content_disposition, 'filename=Sch%C3%B6ne%20Zeit.txt')
-        self.assertEqual(remote_metadata['content-disposition'], 'filename=Sch%C3%B6ne%20Zeit.txt')
+        self.assertEqual(check.content_disposition, 'filename=Sch%C3%B6ne Zeit.txt')
+        self.assertEqual(remote_metadata['content-disposition'], 'filename=Sch%C3%B6ne Zeit.txt')
         self.assertEqual(check.content_encoding, 'gzip')
         self.assertEqual(remote_metadata['content-encoding'], 'gzip')
         self.assertEqual(check.content_language, 'de')
@@ -436,8 +436,8 @@ class S3KeyTest(unittest.TestCase):
         self.assertEqual(remote_metadata['content-type'], 'application/pdf')
         self.assertEqual(check.x_robots_tag, 'all')
         self.assertEqual(remote_metadata['x-robots-tag'], 'all')
-        self.assertEqual(check.expires, 'Thu,%2001%20Dec%201994%2016:00:00%20GMT')
-        self.assertEqual(remote_metadata['expires'], 'Thu,%2001%20Dec%201994%2016:00:00%20GMT')
+        self.assertEqual(check.expires, 'Thu, 01 Dec 1994 16:00:00 GMT')
+        self.assertEqual(remote_metadata['expires'], 'Thu, 01 Dec 1994 16:00:00 GMT')
 
         expected = u'filename=Schöne Zeit.txt'
         if six.PY2:
@@ -458,8 +458,8 @@ class S3KeyTest(unittest.TestCase):
              "AES256",
             "x-amz-server-side-encryption-customer-key" :
              "MAAxAHQAZQBzAHQASwBlAHkAVABvAFMAUwBFAEMAIQA=",
-            "x-amz-server-side-encryption-customer-key-MD5" :
-             "fUgCZDDh6bfEMuP2bN38mg=="
+            "x-amz-server-side-encryption-customer-key-md5" :
+             "fUgCZDDh6bfEMuP2bN38mg==",
         }
         # upload and download content with AWS specified headers
         k = self.bucket.new_key("testkey_for_sse_c")
@@ -467,6 +467,7 @@ class S3KeyTest(unittest.TestCase):
         kn = self.bucket.new_key("testkey_for_sse_c")
         ks = kn.get_contents_as_string(headers=header)
         self.assertEqual(ks, content.encode('utf-8'))
+        self.assertFalse(True)
 
 
 class S3KeySigV4Test(unittest.TestCase):
