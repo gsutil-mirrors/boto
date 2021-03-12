@@ -458,7 +458,7 @@ class S3KeyTest(unittest.TestCase):
              "AES256",
             "x-amz-server-side-encryption-customer-key" :
              "MAAxAHQAZQBzAHQASwBlAHkAVABvAFMAUwBFAEMAIQA=",
-            "x-amz-server-side-encryption-customer-key-md5" :
+            "x-amz-server-side-encryption-customer-key-MD5" :
              "fUgCZDDh6bfEMuP2bN38mg==",
         }
         # upload and download content with AWS specified headers
@@ -467,7 +467,6 @@ class S3KeyTest(unittest.TestCase):
         kn = self.bucket.new_key("testkey_for_sse_c")
         ks = kn.get_contents_as_string(headers=header)
         self.assertEqual(ks, content.encode('utf-8'))
-        self.assertFalse(True)
 
 
 class S3KeySigV4Test(unittest.TestCase):
