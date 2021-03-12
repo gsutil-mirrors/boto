@@ -20,7 +20,8 @@ class MTurkCommon(unittest.TestCase):
                 qn_content.append_field('Text', 'What is a boto no hit type?')
 
                 # create the question specification
-                qn = Question(identifier=str(uuid.uuid4()),
+                qn = Question(
+                        identifier=str(uuid.uuid4()),
                         content=qn_content,
                         answer_spec=AnswerSpecification(FreeTextAnswer()))
                 return qn
