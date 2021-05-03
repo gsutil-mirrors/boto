@@ -221,7 +221,7 @@ class TestS3KeyRetries(AWSMockServiceTestCase):
 
         self.assertTrue(k.should_retry.count, 1)
 
-    def test_should_not_retry_kms_related_integrity_check_failures(self):
+    def test_should_not_raise_kms_related_integrity_errors(self):
         self.set_http_response(status_code=200, header=[
             ('x-amz-server-side-encryption-aws-kms-key-id', 'key'),
             ('etag', 'not equal to key.md5')])
