@@ -41,8 +41,7 @@ class GSConnection(S3Connection):
                  is_secure=True, port=None, proxy=None, proxy_port=None,
                  proxy_user=None, proxy_pass=None,
                  host=DefaultHost, debug=0, https_connection_factory=None,
-                 calling_format=None,
-                 path='/', suppress_consec_slashes=True):
+                 calling_format=None, path='/', suppress_consec_slashes=True):
         super(GSConnection, self).__init__(gs_access_key_id, gs_secret_access_key,
                  is_secure, port, proxy, proxy_port, proxy_user, proxy_pass,
                  host, debug, https_connection_factory, calling_format, path,
