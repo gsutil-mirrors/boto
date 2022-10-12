@@ -507,6 +507,9 @@ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"""
 
     def test_non_string_headers(self):
         self.awesome_bucket_request.headers['Content-Length'] = 8
+        # Ensures headers are alphabetized, not 'header:value' strings:
+        self.awesome_bucket_request.headers['x-amz-server-side-encryption-customer-key-md5'] = 2
+        self.awesome_bucket_request.headers['x-amz-server-side-encryption-customer-key'] = 1
         canonical_headers = self.auth.canonical_headers(
             self.awesome_bucket_request.headers)
         self.assertEqual(
@@ -515,7 +518,9 @@ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"""
             'user-agent:Boto\n'
             'x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae'
             '41e4649b934ca495991b7852b855\n'
-            'x-amz-date:20130605T193245Z'
+            'x-amz-date:20130605T193245Z\n'
+            'x-amz-server-side-encryption-customer-key:1\n'
+            'x-amz-server-side-encryption-customer-key-md5:2'
         )
 
 
