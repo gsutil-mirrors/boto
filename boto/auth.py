@@ -421,7 +421,7 @@ class HmacAuthV4Handler(AuthHandler, HmacKeys):
                 c_value = ' '.join(raw_value.strip().split())
             normalized_headers[c_name] = c_value
         
-        for key in sorted(normalized_headers.keys()):
+        for key in sorted(normalized_headers):
             canonical.append('%s:%s' % (key, normalized_headers[key]))
         return '\n'.join(canonical)
 

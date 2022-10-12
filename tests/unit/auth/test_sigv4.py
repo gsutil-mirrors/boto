@@ -507,7 +507,9 @@ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"""
 
     def test_non_string_headers(self):
         self.awesome_bucket_request.headers['Content-Length'] = 8
-        # Ensures headers are alphabetized, not 'header:value' strings:
+        # Headers in canonical order are alphabetized by key alone.
+        # This test ensures we are not alphabetizing based on the header/value
+        # separator as well:
         self.awesome_bucket_request.headers['x-amz-server-side-encryption-customer-key-md5'] = 2
         self.awesome_bucket_request.headers['x-amz-server-side-encryption-customer-key'] = 1
         canonical_headers = self.auth.canonical_headers(
