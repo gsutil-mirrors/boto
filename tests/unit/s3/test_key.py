@@ -158,7 +158,7 @@ class TestS3Key(AWSMockServiceTestCase):
     def test_download_succeeds(self):
         test_case_headers = [
             [('Content-Length', '5')],
-            [('Content-Range', 'bytes 15-20/100')],
+            [('Content-Range', 'bytes 15-19/100')],
         ]
         for headers in test_case_headers:
             with self.subTest(headers=headers):
@@ -170,7 +170,7 @@ class TestS3Key(AWSMockServiceTestCase):
                 media_response.read.side_effect = [
                     b'12345',
                     b'',
-                    b'',  # Key.close call.
+                    b'',  # Key.close calls read an additional time.
                 ]
 
                 self.https_connection.getresponse.side_effect = [
@@ -190,7 +190,7 @@ class TestS3Key(AWSMockServiceTestCase):
     def test_download_raises_retriable_error_with_truncated_stream(self):
         test_case_headers = [
             [('Content-Length', '5')],
-            [('Content-Range', 'bytes 15-20/100')],
+            [('Content-Range', 'bytes 15-19/100')],
         ]
         for headers in test_case_headers:
             with self.subTest(headers=headers):
@@ -200,7 +200,8 @@ class TestS3Key(AWSMockServiceTestCase):
                 media_response = self.create_response(
                     status_code=200, header=headers)
                 media_response.read.side_effect = [
-                    b'123',
+                    # Stream is truncated and returns < 5 bytes.
+                    b'1234',
                     b'',
                 ]
 
@@ -214,7 +215,7 @@ class TestS3Key(AWSMockServiceTestCase):
 
                 with self.assertRaisesRegex(
                     ResumableDownloadException,
-                    'Download stream truncated. Received 3 of 5 bytes.'
+                    'Download stream truncated. Received 4 of 5 bytes.'
                 ) as context:
                     key.get_file(io.BytesIO())
                     self.assertEqual(

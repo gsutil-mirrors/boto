@@ -335,7 +335,8 @@ class Key(object):
 
                     start_range = int(range_information.group(1))
                     end_range = int(range_information.group(2))
-                    self._size_of_range = end_range - start_range
+                    # Values are zero indexed and inclusive.
+                    self._size_of_range = end_range - start_range + 1
                 elif name.lower() in Key.base_fields:
                     self.__dict__[name.lower().replace('-', '_')] = value
             self.handle_version_headers(self.resp)
